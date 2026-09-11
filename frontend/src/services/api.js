@@ -55,13 +55,24 @@ export const api = {
   },
 
   login: async (credentials) => {
-    const res = await fetch(`${API_BASE}/auth/login`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(credentials)
-    });
-    return handleResponse(res);
-  },
+  const res = await fetch(`${API_BASE}/auth/login`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(credentials)
+  });
+
+  const data = await handleResponse(res);
+
+  if (data.access_token) {
+    localStorage.setItem('token', data.access_token);
+  }
+
+  if (data.user) {
+    localStorage.setItem('user', JSON.stringify(data.user));
+  }
+
+  return data;
+},
 
   getMe: async () => {
     const res = await fetch(`${API_BASE}/auth/me`, {
