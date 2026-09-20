@@ -29,7 +29,7 @@ export const Footer = () => {
               <p className="text-xs font-medium text-slate-600 dark:text-slate-400 flex items-center gap-1.5">
                 <Phone className="w-3.5 h-3.5 text-emerald-500" />
                 <span>
-                  With phone no:{' '}
+                  Phone no:{' '}
                   <a
                     href="tel:7408700625"
                     className="font-bold text-emerald-600 dark:text-emerald-400 hover:underline"
@@ -121,7 +121,7 @@ export const Footer = () => {
             <p className="text-xs font-medium text-slate-700 dark:text-slate-300 flex items-center justify-center gap-1.5">
               <Phone className="w-3.5 h-3.5 text-emerald-500" />
               <span>
-                With phone no:{' '}
+                Phone no:{' '}
                 <a
                   href="tel:7408700625"
                   className="font-bold text-emerald-600 dark:text-emerald-400 hover:underline"
