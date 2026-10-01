@@ -251,28 +251,38 @@ def update_trade(trade_id):
             return jsonify({'error': 'Position must be BUY or SELL.'}), 400
         trade.side = s
 
-    # Position Size
+        # Position Size
     target_market = trade.market_type or 'Indian Market'
+
     if target_market == 'Indian Market':
-        if 'quantity' in form_data:
-            q = parse_float(form_data.get('quantity'))
-            if q is None or q <= 0:
-                return jsonify({'error': 'Quantity must be greater than 0.'}), 400
-            trade.quantity = q
+        q = parse_float(form_data.get('quantity'))
+
+        if q is None or q <= 0:
+            return jsonify({
+                'error': 'Quantity must be greater than 0 for Indian Market.'
+            }), 400
+
+        trade.quantity = q
         trade.lot_size = None
         trade.lots = None
+
     else:
-        if 'lot_size' in form_data:
-            ls = parse_float(form_data.get('lot_size'))
-            if ls is None or ls <= 0:
-                return jsonify({'error': 'Lot size must be greater than 0.'}), 400
-            trade.lot_size = ls
-        if 'lots' in form_data:
-            l = parse_float(form_data.get('lots'))
-            if l is None or l <= 0:
-                return jsonify({'error': 'Lots must be greater than 0.'}), 400
-            trade.lots = l
+        ls = parse_float(form_data.get('lot_size'))
+        l = parse_float(form_data.get('lots'))
+
+        if ls is None or ls <= 0:
+            return jsonify({
+                'error': f'Lot Size must be greater than 0 for {target_market}.'
+            }), 400
+
+        if l is None or l <= 0:
+            return jsonify({
+                'error': f'Lots must be greater than 0 for {target_market}.'
+            }), 400
+
         trade.quantity = None
+        trade.lot_size = ls
+        trade.lots = l
 
     if 'strategy' in form_data:
         trade.strategy = str(form_data.get('strategy', '')).strip() or None
